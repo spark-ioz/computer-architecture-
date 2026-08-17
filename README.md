@@ -19,7 +19,7 @@ int main()
         {"MUL", "R7", "R5", "R8"}
     };
 
-    int n = 4;
+   int n = 4;
     int stalls = 0, forwards = 0;
 
     printf("Instruction Sequence:\n\n");
