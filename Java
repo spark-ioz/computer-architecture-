@@ -1,0 +1,33 @@
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class ArraySort {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Step 1: Input number of elements
+        System.out.print("Enter the number of elements (N): ");
+        int n = sc.nextInt();
+
+        // Step 2: Declare array
+        int[] numbers = new int[n];
+
+        // Step 3: Read elements into array
+        System.out.println("Enter " + n + " numbers:");
+        for (int i = 0; i < n; i++) {
+            numbers[i] = sc.nextInt();
+        }
+
+        // Step 4: Sort the array
+        Arrays.sort(numbers);
+
+        // Step 5: Print sorted array
+        System.out.println("Sorted array in ascending order:");
+        for (int num : numbers) {
+            System.out.print(num + " ");
+        }
+
+        sc.close();
+    }
+}
