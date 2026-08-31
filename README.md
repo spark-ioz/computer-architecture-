@@ -1,66 +1,35 @@
 #include <stdio.h>
-#include <string.h>
+#include <unistd.h>  // For sleep()
 
-typedef struct
+// Interrupt Service Routine
+void ISR()
 {
-    char opcode[10];
-    char dest[5];
-    char src1[5];
-    char src2[5];
-} Instruction;
+    printf("\n*** Interrupt Received ***\n");
+    printf("Executing Interrupt Service Routine...\n");
+    printf("I/O Operation Completed.\n");
+    printf("Returning to Main Program...\n");
+}
 
 int main()
 {
-    Instruction inst[] =
+    int i;
+
+    printf("Interrupt-Driven I/O Simulation\n\n");
+
+    for(i = 1; i <= 10; i++)
     {
-        {"LW", "R1", "R2", ""},
-        {"ADD", "R3", "R1", "R4"},
-        {"SUB", "R5", "R3", "R6"},
-        {"MUL", "R7", "R5", "R8"}
-    };
+        printf("CPU executing task %d\n", i);
 
-   int n = 4;
-    int stalls = 0, forwards = 0;
+        sleep(1);
 
-    printf("Instruction Sequence:\n\n");
-
-    for(int i = 0; i < n; i++)
-    {
-        printf("I%d : %s %s %s %s\n",
-               i+1,
-               inst[i].opcode,
-               inst[i].dest,
-               inst[i].src1,
-               inst[i].src2);
-    }
-
-    printf("\nHazard Detection and Resolution\n");
-    printf("------------------------------\n");
-
-    for(int i = 1; i < n; i++)
-    {
-        if(strcmp(inst[i-1].dest, inst[i].src1) == 0 ||
-           strcmp(inst[i-1].dest, inst[i].src2) == 0)
+        // Simulate interrupt occurrence
+        if(i == 5)
         {
-            printf("\nHazard between I%d and I%d on register %s\n",
-                   i, i+1, inst[i-1].dest);
-
-            if(strcmp(inst[i-1].opcode, "LW") == 0)
-            {
-                printf("Resolution : STALL inserted (Load-Use Hazard)\n");
-                stalls++;
-            }
-            else
-            {
-                printf("Resolution : FORWARDING applied\n");
-                forwards++;
-            }
+            ISR();
         }
     }
 
-    printf("\n------------------------------\n");
-    printf("Total Forwardings : %d\n", forwards);
-    printf("Total Stalls      : %d\n", stalls);
+    printf("All CPU tasks completed.\n");
 
     return 0;
 }
